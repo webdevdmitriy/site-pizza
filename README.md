@@ -18,5 +18,11 @@ React
 - useState
 - useEffect
 
-React Router DOM
+React Router DOM  
 react-paginate для пагинации
+
+**Рассмотрены 3 способа передачи данных**  
+На примере компонента поиска. searchValue и setSearchValue
+
+- props-drilling . Ветка props-drillng
+- context. Ветка context
