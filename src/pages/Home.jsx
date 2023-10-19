@@ -3,26 +3,32 @@ import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import { Skeleton } from '../components/PizzaBlock/Skeleton'
+import Pagination from '../components/Pagination'
 
-const Home = () => {
+const Home = ({ searchValue }) => {
   const [items, setItems] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
   const [categoryId, setCategoryId] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
   const [sortType, setSortType] = useState({ name: 'популярности', sortProperty: 'rating' })
+
+  const search = searchValue ? `&search=${searchValue}` : ''
+
+  console.log(searchValue)
 
   useEffect(() => {
     setIsLoaded(false)
     fetch(
-      `https://63480c73db76843976b90f11.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${
-        sortType.sortProperty
-      }&order=desc`
+      `https://63480c73db76843976b90f11.mockapi.io/items?page=${currentPage}&limit=4&${
+        categoryId > 0 ? `category=${categoryId}` : ''
+      }&sortBy=${sortType.sortProperty}&order=desc${search}`
     )
       .then(res => res.json())
       .then(arr => {
         setItems(arr)
         setIsLoaded(true)
       })
-  }, [categoryId, sortType])
+  }, [categoryId, sortType, search, currentPage])
 
   return (
     <>
@@ -38,6 +44,7 @@ const Home = () => {
             ))
           : new Array(12).fill(1).map(_ => <Skeleton />)}
       </div>
+      <Pagination currentPage={currentPage} onChangePage={number => setCurrentPage(number)} />
     </>
   )
 }
