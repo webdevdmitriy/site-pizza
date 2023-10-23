@@ -13,12 +13,13 @@ const Home = () => {
   const dispatch = useDispatch()
 
   const categoryId = useSelector(state => state.filterSlice.categoryId)
+  const sortType = useSelector(state => state.filterSlice.sort.sortProperty)
 
   const [items, setItems] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortType, setSortType] = useState({ name: 'популярности', sortProperty: 'rating' })
+  // const [sortType, setSortType] = useState({ name: 'популярности', sortProperty: 'rating' })
 
   const onChangeCategory = id => {
     dispatch(setCategoryId(id))
@@ -33,7 +34,7 @@ const Home = () => {
     fetch(
       `https://63480c73db76843976b90f11.mockapi.io/items?page=${currentPage}&limit=4&${
         categoryId > 0 ? `category=${categoryId}` : ''
-      }&sortBy=${sortType.sortProperty}&order=desc${search}`
+      }&sortBy=${sortType}&order=desc${search}`
     )
       .then(res => res.json())
       .then(arr => {
@@ -46,7 +47,7 @@ const Home = () => {
     <>
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={i => onChangeCategory(i)} />
-        <Sort value={sortType} onClickType={i => setSortType(i)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
