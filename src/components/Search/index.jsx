@@ -1,15 +1,46 @@
-import { useContext, useState } from 'react'
-import styles from './Search.module.scss'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+
+import debounce from 'lodash.debounce'
+
 import { SearchContext } from '../../App'
 
+import styles from './Search.module.scss'
 const Search = () => {
-  const { searchValue, setSearchValue } = useContext(SearchContext)
+  const [value, setValue] = useState('')
 
-  function handlerSearchValue(e) {
-    setSearchValue(e.target.value)
+  const { setSearchValue } = useContext(SearchContext)
+  const searchRef = useRef(null)
+
+  const updateSearchValue = useCallback(
+    debounce(str => {
+      setSearchValue(str)
+    }, 250),
+    []
+  )
+
+  const onChangeInput = e => {
+    setValue(e.target.value)
+    updateSearchValue(e.target.value)
   }
 
-  return <input className={styles.root} value={searchValue} onChange={e => handlerSearchValue(e)} placeholder="Поиск пиццы ..." />
+  const onClickClear = e => {
+    setSearchValue(e)
+    searchRef.current.focus()
+  }
+
+  useEffect(() => {}, [])
+
+  return (
+    <div className={styles.root}>
+      {!value && (
+        <span className={styles.close} onClick={() => onClickClear()}>
+          &#10006;
+        </span>
+      )}
+
+      <input ref={searchRef} value={value} onChange={e => onChangeInput(e)} placeholder="Поиск пиццы ..." />
+    </div>
+  )
 }
 
 export default Search

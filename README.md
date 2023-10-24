@@ -17,9 +17,12 @@ React
 
 - useState
 - useEffect
+- useRef
+- useCallback
 
 React Router DOM  
 react-paginate для пагинации
+lodash.debounce Для оптимизации запросов из инпута поиска
 
 **Рассмотрены 3 способа хранения данных**  
 На примере компонента поиска. searchValue и setSearchValue
