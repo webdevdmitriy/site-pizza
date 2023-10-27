@@ -57,10 +57,17 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoaded
-          ? items.map(item => (
-              <PizzaBlock title={item.title} price={item.price} imageUrl={item.imageUrl} sizes={item.sizes} types={item.types} />
+          ? items.map((item, index) => (
+              <PizzaBlock
+                title={item.title}
+                price={item.price}
+                imageUrl={item.imageUrl}
+                sizes={item.sizes}
+                types={item.types}
+                key={index}
+              />
             ))
-          : new Array(12).fill(1).map(_ => <Skeleton />)}
+          : new Array(12).fill(1).map((_, index) => <Skeleton key={index} />)}
       </div>
       <Pagination value={currentPage} onChangePage={onChangePage} />
     </>
