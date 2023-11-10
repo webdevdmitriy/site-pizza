@@ -59,6 +59,7 @@ const Home = () => {
         {isLoaded
           ? items.map((item, index) => (
               <PizzaBlock
+                id={item.id}
                 title={item.title}
                 price={item.price}
                 imageUrl={item.imageUrl}
